@@ -1,0 +1,134 @@
+{
+  "native@1440x900": {
+    "tlOn": false,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "block",
+    "rightSidebarDisplay": "block",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 0,
+    "densityAttr": "balanced",
+    "computedFontSize": 14
+  },
+  "native@1920x1080": {
+    "tlOn": false,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "block",
+    "rightSidebarDisplay": "block",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 0,
+    "densityAttr": "balanced",
+    "computedFontSize": 14
+  },
+  "native@2560x1440": {
+    "tlOn": false,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "block",
+    "rightSidebarDisplay": "block",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 0,
+    "densityAttr": "balanced",
+    "computedFontSize": 14
+  },
+  "balanced@1440x900": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 10,
+    "stampedCount": 32,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  },
+  "balanced@1920x1080": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 14,
+    "stampedCount": 32,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  },
+  "balanced@2560x1440": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 10,
+    "stampedCount": 32,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  },
+  "ultra@1440x900": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 7,
+    "stampedCount": 59,
+    "densityAttr": "ultra",
+    "computedFontSize": 12
+  },
+  "ultra@1920x1080": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 9,
+    "stampedCount": 59,
+    "densityAttr": "ultra",
+    "computedFontSize": 12
+  },
+  "ultra@2560x1440": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 12,
+    "stampedCount": 59,
+    "densityAttr": "ultra",
+    "computedFontSize": 12
+  },
+  "comments@1440x900": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 25,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  },
+  "comments@1920x1080": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 25,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  },
+  "comments@2560x1440": {
+    "tlOn": true,
+    "contentWidth": 732,
+    "leftSidebarDisplay": "none",
+    "rightSidebarDisplay": "none",
+    "hasHorizontalScroll": false,
+    "postsInViewport": 0,
+    "stampedCount": 25,
+    "densityAttr": "balanced",
+    "computedFontSize": 13
+  }
+}

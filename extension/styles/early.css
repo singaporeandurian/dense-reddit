@@ -1,0 +1,385 @@
+/* =============================================================================
+ * Threadline — styles/early.css
+ * Injected at document_start on reddit.com (before first paint → no flash).
+ *
+ * MAINTENANCE CONTRACT
+ * This file and content/selectors.js are the ONLY two places that reference
+ * Reddit's own markup. Every other rule keys off extension-owned hooks that
+ * our JS stamps:
+ *
+ *   html.tl-on                     master gate (nothing applies without it)
+ *   html[data-tl-compact="1"]      compact-reader mode (vs native-clean)
+ *   html[data-tl-density=…]        comfortable | balanced | dense | ultra
+ *   html[data-tl-thumbs=…]         off | small | large
+ *   html[data-tl-avatars=…]        off | on
+ *   html[data-tl-ads=…]            hide | show
+ *   html[data-tl-dim-seen=…]       1 | 0
+ *   html[data-tl-hide-left/right/banners/highlights/prompts=…]  1 | 0
+ *   [data-tl="post"|"comment"]     stamped content nodes
+ *   [data-tl-seen] [data-tl-selected] [data-tl-hidden]
+ *   [data-tl-filtered="hide"] [data-tl-promoted]
+ *   [data-tl-rule-collapse|-dim|-highlight]  filter-rule actions (spec §26)
+ *   [data-tl-op] [data-tl-mod]     comment highlight markers
+ *
+ * If ALL JavaScript fails, the html attributes set optimistically at boot
+ * keep the pure-CSS cleanup below working — that is the guaranteed fallback.
+ *
+ * When Reddit redesigns: fix the selectors in the marked GROUP blocks below,
+ * mirror in content/selectors.js, done.
+ * =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * 1. Design tokens (gated on activation) — spec §15
+ * ------------------------------------------------------------------------- */
+html.tl-on {
+  --tl-font-size: 13px;
+  --tl-line-height: 1.28;
+  --tl-row-pad-y: 5px;
+  --tl-row-pad-x: 10px;
+  --tl-row-gap: 2px;
+  --tl-comment-pad-y: 3px;
+  --tl-content-max-width: 1040px;
+  --tl-muted-opacity: 0.55;
+  --tl-radius: 6px;
+  --tl-accent: #d93a00;
+  --tl-highlight: #e8b339;
+  --tl-title-lines: 2;
+  --tl-feed-media-max: 260px;
+  --tl-rail-w: 304px;
+}
+
+html.tl-on[data-tl-density="comfortable"] {
+  --tl-font-size: 14px;
+  --tl-row-pad-y: 8px;
+  --tl-comment-pad-y: 5px;
+  --tl-feed-media-max: 420px;
+}
+
+html.tl-on[data-tl-density="dense"] {
+  --tl-font-size: 12.5px;
+  --tl-line-height: 1.24;
+  --tl-row-pad-y: 3px;
+  --tl-comment-pad-y: 2px;
+  --tl-title-lines: 1;
+  --tl-feed-media-max: 180px;
+}
+
+html.tl-on[data-tl-density="ultra"] {
+  --tl-font-size: 12px;
+  --tl-line-height: 1.2;
+  --tl-row-pad-y: 2px;
+  --tl-row-gap: 1px;
+  --tl-comment-pad-y: 2px;
+  --tl-title-lines: 1;
+  --tl-feed-media-max: 0px;
+}
+
+/* Theme (spec §24.3) — only the accent/highlight tokens we set on Reddit's
+   page (selection, queue, filter-highlight, OP/mod markers) respond here;
+   Reddit's own page colors are its own theme system, out of scope. */
+html.tl-on[data-tl-theme="high-contrast"] {
+  --tl-accent: #ffcc00;
+  --tl-highlight: #00c2ff;
+  --tl-muted-opacity: 0.7;
+}
+html.tl-on[data-tl-theme="sepia"] {
+  --tl-accent: #a85d2b;
+  --tl-highlight: #6b8e4e;
+}
+
+/* "small" thumbnails cap inline media hard regardless of density
+   (must come after the density blocks — same specificity, later wins). */
+html.tl-on[data-tl-thumbs="small"] {
+  --tl-feed-media-max: 150px;
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. Layout noise removal (pure CSS — works even if all JS dies)
+ * ------------------------------------------------------------------------- */
+
+/* GROUP leftSidebar ------------------------------------------------------- */
+html.tl-on[data-tl-hide-left="1"] #left-sidebar-container,
+html.tl-on[data-tl-hide-left="1"] #left-sidebar,
+html.tl-on[data-tl-hide-left="1"] flex-left-nav-container {
+  display: none !important;
+}
+
+/* GROUP rightSidebar ------------------------------------------------------ */
+html.tl-on[data-tl-hide-right="1"] #right-sidebar-container,
+html.tl-on[data-tl-hide-right="1"] #right-sidebar,
+html.tl-on[data-tl-hide-right="1"] [data-testid="subreddit-sidebar"],
+html.tl-on[data-tl-hide-right="1"] [data-testid="frontpage-sidebar"] {
+  display: none !important;
+}
+
+/* GROUP banners / subreddit masthead ---------------------------------------
+   Verified live 2026-07: the big subreddit block is
+   #subgrid-container > div.masthead — [banner strip div][section: icon + h1 +
+   shreddit-subreddit-header-buttons]. The section is pulled up over the
+   banner with a negative top offset, so we reset it when hiding the strip. */
+html.tl-on[data-tl-hide-banners="1"] .masthead > div:not([class*="flex"]):first-child,
+html.tl-on[data-tl-hide-banners="1"] shreddit-subreddit-header [slot="banner"],
+html.tl-on[data-tl-hide-banners="1"] [slot="community-banner"],
+html.tl-on[data-tl-hide-banners="1"] .subreddit-banner {
+  display: none !important;
+}
+html.tl-on[data-tl-hide-banners="1"] .masthead section {
+  top: 0 !important;
+  margin-bottom: 0 !important;
+  align-items: center !important;
+}
+html.tl-on[data-tl-hide-banners="1"] .masthead h1 {
+  font-size: 18px !important;
+}
+html.tl-on[data-tl-hide-banners="1"] shreddit-subreddit-header,
+html.tl-on[data-tl-hide-banners="1"] [data-testid="subreddit-header"] {
+  min-height: 0 !important;
+  background-image: none !important;
+}
+
+/* GROUP community highlights / promo blocks ------------------------------- */
+html.tl-on[data-tl-hide-highlights="1"] community-highlight-carousel,
+html.tl-on[data-tl-hide-highlights="1"] shreddit-gallery-carousel,
+html.tl-on[data-tl-hide-highlights="1"] [aria-label*="Community highlights" i],
+html.tl-on[data-tl-hide-highlights="1"] [aria-label*="Games on Reddit" i],
+html.tl-on[data-tl-hide-highlights="1"] shreddit-async-loader[bundlename*="games_carousel" i] {
+  display: none !important;
+}
+
+/* GROUP prompts (join nags, app upsell, cookie-adjacent banners) ----------- */
+html.tl-on[data-tl-hide-prompts="1"] shreddit-async-loader[bundlename*="top_banner" i],
+html.tl-on[data-tl-hide-prompts="1"] xpromo-app-selector,
+html.tl-on[data-tl-hide-prompts="1"] [data-testid="bottom-bar"],
+html.tl-on[data-tl-hide-prompts="1"] shreddit-experience-tree {
+  display: none !important;
+}
+
+/* Center + constrain the content column ------------------------------------ */
+html.tl-on #main-content,
+html.tl-on main {
+  max-width: var(--tl-content-max-width) !important;
+  margin-inline: auto !important;
+  width: 100% !important;
+  float: none !important;
+}
+
+/* Split-pane: make room for the extension-owned <tl-rail> feed list.
+   data-tl-rail is set by splitpane.js only when the rail actually renders. */
+html.tl-on[data-tl-rail="1"] #main-content,
+html.tl-on[data-tl-rail="1"] main {
+  margin-left: calc(var(--tl-rail-w) + 20px) !important;
+  margin-right: auto !important;
+}
+html.tl-on body {
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. Feed compaction (compact-reader mode only)
+ *    font-size on the host element inherits INTO shreddit shadow roots, so
+ *    action rows / metadata shrink too even where we cannot select them.
+ * ------------------------------------------------------------------------- */
+html.tl-on[data-tl-compact="1"] shreddit-post,
+html.tl-on[data-tl-compact="1"] shreddit-ad-post,
+html.tl-on[data-tl-compact="1"] [data-testid="post-container"] {
+  margin: 0 0 var(--tl-row-gap) !important;
+  padding: var(--tl-row-pad-y) var(--tl-row-pad-x) !important;
+  border-radius: var(--tl-radius) !important;
+  font-size: var(--tl-font-size) !important;
+  line-height: var(--tl-line-height) !important;
+}
+
+/* Kill the gap Reddit puts between feed units */
+html.tl-on[data-tl-compact="1"] shreddit-feed article,
+html.tl-on[data-tl-compact="1"] shreddit-feed hr,
+html.tl-on[data-tl-compact="1"] shreddit-feed faceplate-batch {
+  margin-block: 0 !important;
+}
+html.tl-on[data-tl-compact="1"] shreddit-feed hr {
+  display: none !important;
+}
+
+/* Title: clamp to N lines per density */
+html.tl-on[data-tl-compact="1"] shreddit-post [slot="title"],
+html.tl-on[data-tl-compact="1"] [data-testid="post-title"] {
+  font-size: calc(var(--tl-font-size) + 1px) !important;
+  line-height: var(--tl-line-height) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: var(--tl-title-lines);
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+}
+
+/* Text-post body preview: clamp when comfortable/balanced, gone when dense+ */
+html.tl-on[data-tl-compact="1"] shreddit-post [slot="text-body"] {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+  margin-block: 2px 0 !important;
+}
+html.tl-on[data-tl-compact="1"][data-tl-density="dense"] shreddit-post [slot="text-body"],
+html.tl-on[data-tl-compact="1"][data-tl-density="ultra"] shreddit-post [slot="text-body"] {
+  display: none !important;
+}
+
+/* Credit bar (avatar · u/name · age): drop its forced min-height; hide the
+   author avatar when avatars are off. */
+html.tl-on[data-tl-compact="1"] shreddit-post [slot="credit-bar"] {
+  min-height: 0 !important;
+  margin-block: 0 !important;
+}
+html.tl-on[data-tl-avatars="off"] shreddit-post [slot="credit-bar"] img,
+html.tl-on[data-tl-avatars="off"] shreddit-post [slot="credit-bar"] faceplate-img,
+html.tl-on[data-tl-avatars="off"] shreddit-post [slot="credit-bar"] image {
+  display: none !important;
+}
+
+/* Media / thumbnails per setting */
+html.tl-on[data-tl-thumbs="off"] shreddit-post [slot="thumbnail"],
+html.tl-on[data-tl-thumbs="off"] shreddit-post [slot="post-media-container"] {
+  display: none !important;
+}
+html.tl-on[data-tl-compact="1"][data-tl-thumbs="small"] shreddit-post [slot="post-media-container"],
+html.tl-on[data-tl-compact="1"][data-tl-thumbs="large"] shreddit-post [slot="post-media-container"] {
+  max-height: var(--tl-feed-media-max) !important;
+  overflow: hidden !important;
+  border-radius: var(--tl-radius) !important;
+}
+
+/* Side thumbnails on card-view rows (self-heal fallback posts) stay small */
+html.tl-on[data-tl-compact="1"][data-tl-thumbs="small"] shreddit-post [slot="thumbnail"] {
+  max-height: 84px !important;
+  max-width: 112px !important;
+  overflow: hidden !important;
+}
+html.tl-on[data-tl-compact="1"][data-tl-thumbs="small"] shreddit-post [slot="thumbnail"] img {
+  max-height: 84px !important;
+  object-fit: cover !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * 4. Comments compaction
+ * ------------------------------------------------------------------------- */
+html.tl-on[data-tl-compact="1"] shreddit-comment,
+html.tl-on[data-tl-compact="1"] [data-testid="comment"] {
+  font-size: var(--tl-font-size) !important;
+  line-height: var(--tl-line-height) !important;
+  margin-block: 0 !important;
+  padding-block: var(--tl-comment-pad-y) !important;
+}
+html.tl-on[data-tl-compact="1"] shreddit-comment [slot="comment"] p {
+  margin-block: 2px !important;
+  font-size: var(--tl-font-size) !important;
+  line-height: var(--tl-line-height) !important;
+}
+
+/* GROUP comment avatars ---------------------------------------------------- */
+html.tl-on[data-tl-avatars="off"] shreddit-comment [slot="commentAvatar"],
+html.tl-on[data-tl-avatars="off"] shreddit-comment [slot="avatar"],
+html.tl-on[data-tl-avatars="off"] shreddit-comment faceplate-img[alt*="avatar" i],
+html.tl-on[data-tl-avatars="off"] shreddit-comment image,
+html.tl-on[data-tl-avatars="off"] shreddit-comment [data-testid="comment-avatar"] {
+  display: none !important;
+}
+
+/* GROUP comment action row (reply/share/…): hover-or-focus only.
+   Direct child combinator matters — nested comments live inside their
+   parents' light DOM, so a descendant match would leak to the whole thread. */
+html.tl-on[data-tl-hover-actions="1"] shreddit-comment > [slot="actionRow"] {
+  display: none !important;
+}
+html.tl-on[data-tl-hover-actions="1"] shreddit-comment:hover > [slot="actionRow"],
+html.tl-on[data-tl-hover-actions="1"] shreddit-comment:focus-within > [slot="actionRow"],
+html.tl-on[data-tl-hover-actions="1"] shreddit-comment[data-tl-selected] > [slot="actionRow"] {
+  display: block !important;
+}
+
+/* Compact the comments-page post header too */
+html.tl-on[data-tl-compact="1"][data-tl-route="comments"] shreddit-post {
+  padding: 8px 12px !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * 5. Extension-owned state hooks (stamped by JS — no Reddit selectors here)
+ * ------------------------------------------------------------------------- */
+html.tl-on [data-tl-hidden],
+html.tl-on [data-tl-filtered="hide"] {
+  display: none !important;
+}
+
+html.tl-on[data-tl-dim-seen="1"] [data-tl-seen] {
+  opacity: var(--tl-muted-opacity);
+}
+html.tl-on[data-tl-dim-seen="1"] [data-tl-seen]:hover,
+html.tl-on[data-tl-dim-seen="1"] [data-tl-seen][data-tl-selected] {
+  opacity: 1;
+}
+
+/* Queued-for-later marker (reading queue) — accent tick on the right edge.
+   Declared before the selected rule so selection wins while both apply. */
+html.tl-on [data-tl-queued] {
+  box-shadow: inset -3px 0 0 var(--tl-accent);
+}
+
+html.tl-on [data-tl-selected] {
+  box-shadow: inset 3px 0 0 var(--tl-accent) !important;
+  background-color: color-mix(in srgb, var(--tl-accent) 6%, transparent) !important;
+  border-radius: var(--tl-radius) !important;
+}
+
+/* Filter rule actions (spec §26) — hide already covered above via
+   [data-tl-filtered="hide"]; collapse/dim/highlight are the other three. */
+html.tl-on[data-tl-compact="1"] shreddit-post[data-tl-rule-collapse] [slot="thumbnail"],
+html.tl-on[data-tl-compact="1"] shreddit-post[data-tl-rule-collapse] [slot="post-media-container"],
+html.tl-on[data-tl-compact="1"] shreddit-post[data-tl-rule-collapse] [slot="text-body"] {
+  display: none !important;
+}
+html.tl-on[data-tl-compact="1"] shreddit-post[data-tl-rule-collapse] [slot="title"] {
+  -webkit-line-clamp: 1 !important;
+}
+
+html.tl-on [data-tl-rule-dim] {
+  opacity: var(--tl-muted-opacity);
+}
+html.tl-on [data-tl-rule-dim]:hover,
+html.tl-on [data-tl-rule-dim][data-tl-selected] {
+  opacity: 1;
+}
+
+html.tl-on [data-tl-rule-highlight] {
+  box-shadow: inset 3px 0 0 var(--tl-highlight) !important;
+}
+
+/* Comment OP/moderator markers — a small left accent, distinct from the
+   selection accent so they never read as "currently selected". */
+html.tl-on[data-tl-compact="1"] shreddit-comment[data-tl-op],
+html.tl-on[data-tl-compact="1"] shreddit-comment[data-tl-mod] {
+  box-shadow: inset 2px 0 0 var(--tl-highlight) !important;
+}
+
+html.tl-on[data-tl-ads="hide"] shreddit-ad-post,
+html.tl-on[data-tl-ads="hide"] [data-tl-promoted] {
+  display: none !important;
+}
+/* When ads are kept, at least compress them hard */
+html.tl-on[data-tl-ads="show"][data-tl-compact="1"] [data-tl-promoted] {
+  max-height: 72px !important;
+  overflow: hidden !important;
+  opacity: 0.75;
+}
+
+/* ---------------------------------------------------------------------------
+ * 6. Accessibility
+ * ------------------------------------------------------------------------- */
+html.tl-on :focus-visible {
+  outline: 2px solid var(--tl-accent) !important;
+  outline-offset: 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.tl-on * {
+    scroll-behavior: auto !important;
+  }
+}

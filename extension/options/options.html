@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Dense — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="dot"></span>
+      <h1>Dense settings</h1>
+      <span id="saveStatus"></span>
+    </header>
+
+    <section>
+      <h2>Presets <span class="hint">look only · shareable</span></h2>
+      <p class="hint">Copy or import layout, density, feed, and comment settings without filters, privacy, or history.</p>
+      <div class="actions">
+        <button id="copyPreset">Copy preset</button>
+        <button id="importPreset">Import preset</button>
+      </div>
+      <textarea id="presetBox" rows="5" hidden spellcheck="false"></textarea>
+    </section>
+
+    <section>
+      <h2>Appearance</h2>
+      <div class="row">
+        <label for="themeOpt">Theme</label>
+        <select id="themeOpt">
+          <option value="auto">Auto (match browser)</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="oled">OLED dark</option>
+          <option value="high-contrast">High contrast</option>
+          <option value="sepia">Sepia</option>
+        </select>
+      </div>
+    </section>
+
+    <section>
+      <h2>Layout</h2>
+      <div class="grid">
+        <label><input type="checkbox" id="hideLeftSidebar"> Hide left navigation</label>
+        <label><input type="checkbox" id="hideRightSidebar"> Hide right sidebar</label>
+        <label><input type="checkbox" id="hideBanners"> Hide subreddit banners</label>
+        <label><input type="checkbox" id="hideCommunityHighlights"> Hide community highlights</label>
+        <label><input type="checkbox" id="hidePrompts"> Hide join/app prompts</label>
+      </div>
+      <div class="row">
+        <label for="maxContentWidth">Max content width (px)</label>
+        <input type="number" id="maxContentWidth" min="600" max="2000" step="20">
+      </div>
+    </section>
+
+    <section>
+      <h2>Feed</h2>
+      <div class="row">
+        <label for="densityPreset">Density preset</label>
+        <select id="densityPreset">
+          <option value="comfortable">Comfortable</option>
+          <option value="balanced">Balanced</option>
+          <option value="dense">Dense</option>
+          <option value="ultra">Ultra</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="thumbnailsOpt">Thumbnails</label>
+        <select id="thumbnailsOpt">
+          <option value="off">Off</option>
+          <option value="small">Small</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+      <div class="grid">
+        <label><input type="checkbox" id="dimSeenOpt"> Dim posts seen on earlier visits</label>
+        <label><input type="checkbox" id="hidePromotedOpt"> Hide promoted posts</label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Comments</h2>
+      <div class="grid">
+        <label><input type="checkbox" id="hideAvatars"> Hide avatars</label>
+        <label><input type="checkbox" id="collapseAutoModerator"> Collapse AutoModerator</label>
+        <label><input type="checkbox" id="collapseLowScore"> Collapse low-score comments</label>
+        <label><input type="checkbox" id="highlightOP"> Highlight OP's comments</label>
+        <label><input type="checkbox" id="highlightMods"> Highlight moderator comments</label>
+        <label><input type="checkbox" id="minimapOpt"> Mini-map of top-level comments</label>
+      </div>
+      <div class="row">
+        <label for="lowScoreThreshold">Collapse comments scored below</label>
+        <input type="number" id="lowScoreThreshold" step="1">
+      </div>
+    </section>
+
+    <section>
+      <h2>Reading queue <span class="hint">press q on a post while browsing to queue it</span></h2>
+      <div id="queueList" class="overrides"></div>
+      <div class="actions">
+        <button id="clearQueue">Clear queue</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Filters <span class="hint">rules run top to bottom · first match wins</span></h2>
+      <div id="ruleList" class="rules"></div>
+      <div class="actions">
+        <button id="addRule">Add rule</button>
+        <button id="exportFilters">Export filters</button>
+        <button id="importFilters">Import filters</button>
+      </div>
+      <textarea id="filterImportExportBox" rows="5" hidden spellcheck="false"></textarea>
+    </section>
+
+    <section>
+      <h2>Keyboard</h2>
+      <div class="grid">
+        <label><input type="checkbox" id="keyboardEnabled"> Enable keyboard navigation (press ? on Reddit for the key list)</label>
+        <label><input type="checkbox" id="vimNavigation"> Vim-style navigation (j/k/g-prefix)</label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Per-subreddit overrides</h2>
+      <div id="overridesList" class="overrides"></div>
+      <p class="hint">Add overrides from the popup or command palette while browsing a subreddit.</p>
+    </section>
+
+    <section>
+      <h2>Privacy &amp; data</h2>
+      <div class="grid">
+        <label><input type="checkbox" id="storeReadHistory"> Remember seen/hidden posts (locally only)</label>
+      </div>
+      <div class="row">
+        <label for="readHistoryTtlDays">Seen-history retention (days)</label>
+        <input type="number" id="readHistoryTtlDays" min="1" max="365">
+      </div>
+      <div class="actions">
+        <button id="clearHistory">Clear read history</button>
+        <button id="exportSettings">Export settings</button>
+        <button id="importSettings">Import settings</button>
+      </div>
+      <textarea id="importExportBox" rows="5" hidden spellcheck="false"></textarea>
+      <p class="hint">Everything Dense stores stays in your browser (Chrome storage). No servers, no analytics, no Reddit credentials. Not affiliated with Reddit.</p>
+    </section>
+  </div>
+
+  <script src="../shared/schema.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
